@@ -1,0 +1,30 @@
+plugins {
+    id 'java'
+}
+
+group 'com.ngsky'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+allprojects {
+    apply plugin: 'war'
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+    compile group: 'io.netty', name: 'netty-all', version: '4.1.58.Final'
+    providedCompile group: 'org.projectlombok', name: 'lombok', version: '1.18.16'
+    compile(
+            "com.google.protobuf:protobuf-java:3.14.0",
+            "com.google.protobuf:protobuf-java-util:3.14.0",
+            "org.apache.thrift:libthrift:0.13.0"
+    )
+}
+
+test {
+    useJUnitPlatform()
+}

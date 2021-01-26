@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package com.ngsky.example6.protobuf;
+
+// 优化机制:
+// SPEED: 性能加速,（默认）
+// CODE_SIZE: 生成的类最小
+// LITE_RUNTIME: 精简版的类，一般用于mobile app
+option optimize_for = SPEED;
+
+// 最佳实践：最好同时指定 java_package 和 package 两个选项
+// 如果是需要编译成 java 语言， protoc 优先使用 java_package 选项, 因为 package 一般不会指定为全限类名的方式，
+// 这是java独有的表示包的方法，在其它语言中可指定 package tutorial。
+// java_package 编译后代码生成到哪个包中
+option java_package = "com.ngsky.example6.protobuf";
+// 输出到外部的类名
+option java_outer_classname = "AddressBookProtos";
+
+// 消息体
+message Person {
+  // =1, =2 : 表示二进制数据中字段的标识
+  string name = 1;
+  int32 id = 2;
+  string email = 3;
+
+  enum PhoneType {
+    MOBILE = 0;
+    HOME = 1;
+    WORK = 2;
+  }
+
+  message PhoneNumber {
+    string number = 1;
+    // proto3 中枚举默认值为 枚举 类型中定义的第一个值，在这里也就是 MOBILE
+    PhoneType type = 2;
+  }
+
+  // repeated 类似一个List 集合
+  repeated PhoneNumber phones = 4;
+}
+
+message AddressBook {
+  repeated Person people = 1;
+}
